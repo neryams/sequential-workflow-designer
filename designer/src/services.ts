@@ -6,6 +6,7 @@ import { KeyboardDaemonExtension } from './keyboard/keyboard-daemon-extension';
 import { SmartEditorExtension } from './smart-editor/smart-editor-extension';
 import { ToolboxExtension } from './toolbox/toolbox-extension';
 import { ValidationErrorBadgeExtension } from './workspace/badges/validation-error/validation-error-badge-extension';
+import { CustomSvgBadgeExtension } from './workspace/badges/custom-svg-badge/custom-svg-badge-extension';
 import { ContainerStepExtension } from './workspace/container-step/container-step-extension';
 import { RectPlaceholderExtension } from './workspace/placeholder/rect-placeholder-extension';
 import { StartStopRootComponentExtension } from './workspace/start-stop-root/start-stop-root-component-extension';
@@ -110,6 +111,11 @@ function setDefaults(services: Partial<Services>, configuration: DesignerConfigu
 	}
 	if (findValidationBadgeIndex(services.badges) < 0) {
 		services.badges.push(ValidationErrorBadgeExtension.create());
+	}
+	if (configuration.customBadges) {
+		configuration.customBadges.forEach((badgeConfiguration, index) => {
+			services.badges!.push(CustomSvgBadgeExtension.create(badgeConfiguration, index));
+		});
 	}
 
 	if (!services.draggedComponent) {

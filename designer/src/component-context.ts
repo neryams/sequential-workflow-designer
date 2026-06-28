@@ -2,6 +2,7 @@ import { DefinitionWalker } from 'sequential-workflow-model';
 import { DefinitionValidator } from './core/definition-validator';
 import { IconProvider } from './core/icon-provider';
 import { DesignerConfiguration, I18n, PreferenceStorage, TextWidthMeasurer } from './designer-configuration';
+import { Definition } from './definition';
 import { DesignerState } from './designer-state';
 import { Services } from './services';
 import { StepComponentFactory } from './workspace/step-component-factory';
@@ -54,5 +55,9 @@ export class ComponentContext {
 
 	public getViewportScale(): number {
 		return this.state.viewport.scale;
+	}
+
+	public getDefinition(): Definition {
+		return this.state.definition;
 	}
 }

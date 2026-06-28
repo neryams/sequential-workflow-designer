@@ -59,6 +59,11 @@ export interface DesignerConfiguration<TDefinition extends Definition = Definiti
 	validator?: ValidatorConfiguration;
 
 	/**
+	 * @description Custom SVG badges shown on steps or the root when a callback returns tooltip text.
+	 */
+	customBadges?: CustomBadgeConfiguration[];
+
+	/**
 	 * @description The configuration of the keyboard shortcuts. By default, the keyboard shortcuts are enabled (`true`). If `false`, the keyboard shortcuts are disabled.
 	 */
 	keyboard?: boolean | KeyboardConfiguration;
@@ -210,6 +215,13 @@ export interface ValidatorConfiguration {
 
 export type StepValidator = (step: Step, parentSequence: Sequence, definition: Definition) => boolean;
 export type RootValidator = (definition: Definition) => boolean;
+
+export interface CustomBadgeConfiguration {
+	svgUrl: string;
+	size?: number;
+	step?: (step: Step, parentSequence: Sequence, definition: Definition) => string | null;
+	root?: (definition: Definition) => string | null;
+}
 
 export interface KeyboardConfiguration {
 	canHandleKey?: (action: KeyboardAction, event: KeyboardEvent) => boolean;

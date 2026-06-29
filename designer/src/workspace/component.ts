@@ -38,6 +38,7 @@ export interface StepComponentView extends ComponentView {
 	resolveClick(click: ClickDetails): true | ClickCommand | null;
 	setIsDragging(isDragging: boolean): void;
 	setIsSelected(isSelected: boolean): void;
+	setIsHighlighted(isHighlighted: boolean, className: string): void;
 	setIsDisabled(isDisabled: boolean): void;
 	getClientPosition(): Vector;
 }

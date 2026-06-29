@@ -64,6 +64,7 @@ export class Workspace implements WorkspaceController {
 		designerContext.setWorkspaceController(workspace);
 		designerContext.state.onViewportChanged.subscribe(workspace.onViewportChanged);
 		designerContext.state.onPreferencesChanged.subscribe(workspace.onPreferencesChanged);
+		designerContext.state.onHighlightedStepsChanged.subscribe(map => workspace.applyHighlights(map));
 
 		race(
 			0,
@@ -88,6 +89,7 @@ export class Workspace implements WorkspaceController {
 
 	private initTimeout: ReturnType<typeof setTimeout> | null = null;
 	private selectedStepComponent: StepComponent | null = null;
+	private highlightedStepComponents = new Map<string, { component: StepComponent; className: string }>();
 	private validationErrorBadgeIndex: number | null = null;
 
 	private constructor(
@@ -114,6 +116,7 @@ export class Workspace implements WorkspaceController {
 
 	public updateRootComponent = () => {
 		this.selectedStepComponent = null;
+		this.highlightedStepComponents.clear();
 
 		const rootSequence = this.workspaceApi.getRootSequence();
 		const parentPlaceIndicator: SequencePlaceIndicator | null = rootSequence.parentStep
@@ -125,6 +128,7 @@ export class Workspace implements WorkspaceController {
 
 		this.view.render(rootSequence.sequence, parentPlaceIndicator);
 		this.trySelectStepComponent(this.state.selectedStepId);
+		this.applyHighlights(this.state.highlightedSteps);
 		this.updateBadges();
 
 		this.onRootComponentUpdated.emit();
@@ -251,6 +255,21 @@ export class Workspace implements WorkspaceController {
 				this.selectedStepComponent.setIsSelected(true);
 			}
 		}
+	}
+
+	public applyHighlights(highlights: ReadonlyMap<string, string>) {
+		this.highlightedStepComponents.forEach(({ component, className }) => {
+			component.setIsHighlighted(false, className);
+		});
+		this.highlightedStepComponents.clear();
+
+		highlights.forEach((className, stepId) => {
+			const component = this.getRootComponent().findById(stepId);
+			if (component) {
+				component.setIsHighlighted(true, className);
+				this.highlightedStepComponents.set(stepId, { component, className });
+			}
+		});
 	}
 
 	private resolveClick(element: Element, position: Vector): ClickCommand | null {

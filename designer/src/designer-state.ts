@@ -15,6 +15,7 @@ export type DefinitionChangedEventDetails = Omit<DefinitionChangedEvent, 'defini
 export class DesignerState {
 	public readonly onViewportChanged = new SimpleEvent<Viewport>();
 	public readonly onSelectedStepIdChanged = new SimpleEvent<string | null>();
+	public readonly onHighlightedStepsChanged = new SimpleEvent<ReadonlyMap<string, string>>();
 	public readonly onStepUnselectionBlocked = new SimpleEvent<string | null>();
 	public readonly onFolderPathChanged = new SimpleEvent<string[]>();
 	public readonly onIsReadonlyChanged = new SimpleEvent<boolean>();
@@ -30,6 +31,7 @@ export class DesignerState {
 		scale: 1
 	};
 	public selectedStepId: string | null = null;
+	public highlightedSteps = new Map<string, string>();
 	public folderPath: string[] = [];
 	public isDragging = false;
 	public isDragDisabled = false;
@@ -47,6 +49,11 @@ export class DesignerState {
 			this.selectedStepId = stepId;
 			this.onSelectedStepIdChanged.emit(stepId);
 		}
+	}
+
+	public setHighlightedSteps(highlights: ReadonlyMap<string, string>) {
+		this.highlightedSteps = new Map(highlights);
+		this.onHighlightedStepsChanged.emit(new Map(this.highlightedSteps));
 	}
 
 	public pushStepIdToFolderPath(stepId: string) {

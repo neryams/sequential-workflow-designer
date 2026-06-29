@@ -176,6 +176,9 @@ function createView(
 		},
 		setIsSelected(isSelected: boolean) {
 			regionView?.setIsSelected(isSelected);
+		},
+		setIsHighlighted(isHighlighted: boolean, className: string) {
+			regionView?.setIsHighlighted(isHighlighted, className);
 		}
 	};
 }

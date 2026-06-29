@@ -93,6 +93,9 @@ export const createTaskStepComponentViewFactory =
 			},
 			setIsSelected(isSelected: boolean) {
 				Dom.toggleClass(rect, isSelected, 'sqd-selected');
+			},
+			setIsHighlighted(isHighlighted: boolean, className: string) {
+				Dom.toggleClass(rect, isHighlighted, className);
 			}
 		};
 	};

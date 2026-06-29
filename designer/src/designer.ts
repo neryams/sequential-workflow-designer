@@ -71,6 +71,7 @@ export class Designer<TDefinition extends Definition = Definition> {
 		designerContext.state.onStepUnselectionBlocked.subscribe(designer.onStepUnselectionBlocked.emit);
 		designerContext.state.onIsDraggingChanged.subscribe(designer.onIsDraggingChanged.emit);
 		designerContext.state.onPreferencesChanged.subscribe(designer.onPreferencesChanged.emit);
+		designerContext.state.onHighlightedStepsChanged.subscribe(designer.onHighlightedStepsChanged.emit);
 		return designer;
 	}
 
@@ -101,6 +102,11 @@ export class Designer<TDefinition extends Definition = Definition> {
 	 * @description Fires when the selected step has changed.
 	 */
 	public readonly onSelectedStepIdChanged = new SimpleEvent<string | null>();
+
+	/**
+	 * @description Fires when highlighted steps have changed. The map keys are step ids; values are CSS class names.
+	 */
+	public readonly onHighlightedStepsChanged = new SimpleEvent<ReadonlyMap<string, string>>();
 
 	/**
 	 * @description Fires when the designer could not unselect the currently selected step due to restrictions.
@@ -179,6 +185,55 @@ export class Designer<TDefinition extends Definition = Definition> {
 	 */
 	public clearSelectedStep() {
 		this.state.setSelectedStepId(null);
+	}
+
+	/**
+	 * @returns step ids of all currently highlighted steps.
+	 */
+	public getHighlightedStepIds(): string[] {
+		return Array.from(this.state.highlightedSteps.keys());
+	}
+
+	/**
+	 * @description Highlights a step by id. Uses `sqd-highlighted` by default; pass a custom CSS class for variant styling.
+	 */
+	public highlightStep(stepId: string, className = 'sqd-highlighted') {
+		const highlights = new Map(this.state.highlightedSteps);
+		highlights.set(stepId, className);
+		this.state.setHighlightedSteps(highlights);
+	}
+
+	/**
+	 * @description Removes highlight from a step by id.
+	 */
+	public unhighlightStep(stepId: string) {
+		if (!this.state.highlightedSteps.has(stepId)) {
+			return;
+		}
+		const highlights = new Map(this.state.highlightedSteps);
+		highlights.delete(stepId);
+		this.state.setHighlightedSteps(highlights);
+	}
+
+	/**
+	 * @description Replaces all highlighted steps. Each entry may specify a custom CSS class (defaults to `sqd-highlighted`).
+	 */
+	public setHighlightedSteps(highlights: { stepId: string; className?: string }[]) {
+		const map = new Map<string, string>();
+		for (const { stepId, className } of highlights) {
+			map.set(stepId, className ?? 'sqd-highlighted');
+		}
+		this.state.setHighlightedSteps(map);
+	}
+
+	/**
+	 * @description Clears all highlighted steps.
+	 */
+	public clearHighlightedSteps() {
+		if (this.state.highlightedSteps.size === 0) {
+			return;
+		}
+		this.state.setHighlightedSteps(new Map());
 	}
 
 	/**

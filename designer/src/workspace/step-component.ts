@@ -86,6 +86,10 @@ export class StepComponent implements Component {
 		this.view.setIsSelected(isSelected);
 	}
 
+	public setIsHighlighted(isHighlighted: boolean, className: string) {
+		this.view.setIsHighlighted(isHighlighted, className);
+	}
+
 	public setIsDisabled(isDisabled: boolean) {
 		this.view.setIsDisabled(isDisabled);
 	}

@@ -46,6 +46,12 @@ export class DefaultRegionView implements RegionView {
 			Dom.toggleClass(region, isSelected, 'sqd-selected');
 		});
 	}
+
+	public setIsHighlighted(isHighlighted: boolean, className: string) {
+		this.lines.forEach(region => {
+			Dom.toggleClass(region, isHighlighted, className);
+		});
+	}
 }
 
 function drawLine(parent: SVGElement, x1: number, y1: number, x2: number, y2: number): SVGLineElement {

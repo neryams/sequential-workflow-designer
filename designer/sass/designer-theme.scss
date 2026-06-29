@@ -215,10 +215,13 @@
 	$componentType: '',
 	$strokeColor: #cecece,
 	$strokeColorSelected: #ed4800,
+	$strokeColorHighlighted: #f5a623,
 	$strokeWidth: 2,
 	$strokeWidthSelected: 2,
+	$strokeWidthHighlighted: 2,
 	$strokeDasharray: 3,
-	$strokeDasharraySelected: 0
+	$strokeDasharraySelected: 0,
+	$strokeDasharrayHighlighted: 0
 ) {
 	.sqd-theme-#{$theme}#{if($componentType != '', ' .sqd-step-' + $componentType + ' >', '')} {
 		.sqd-region {
@@ -230,6 +233,11 @@
 			stroke: $strokeColorSelected;
 			stroke-width: $strokeWidthSelected;
 			stroke-dasharray: $strokeDasharraySelected;
+		}
+		.sqd-region.sqd-highlighted {
+			stroke: $strokeColorHighlighted;
+			stroke-width: $strokeWidthHighlighted;
+			stroke-dasharray: $strokeDasharrayHighlighted;
 		}
 	}
 }
@@ -262,9 +270,12 @@
 	$rectFillColor: #fff,
 	$rectStrokeColor: #c3c3c3,
 	$rectStrokeColorSelected: #ed4800,
+	$rectStrokeColorHighlighted: #f5a623,
 	$rectStrokeWidth: 1,
 	$rectStrokeWidthSelected: 2,
+	$rectStrokeWidthHighlighted: 2,
 	$rectShadow: (0 2px 2px rgba(0, 0, 0, 0.15)),
+	$rectHighlightGlow: (0 0 4px rgba(245, 166, 35, 0.8)),
 	$textColor: #000,
 	$emptyIconColor: #c6c6c6,
 	$inputStrokeWidth: 2,
@@ -284,6 +295,11 @@
 		.sqd-step-task-rect.sqd-selected {
 			stroke: $rectStrokeColorSelected;
 			stroke-width: $rectStrokeWidthSelected;
+		}
+		.sqd-step-task-rect.sqd-highlighted {
+			stroke: $rectStrokeColorHighlighted;
+			stroke-width: $rectStrokeWidthHighlighted;
+			filter: drop-shadow($rectShadow), drop-shadow($rectHighlightGlow);
 		}
 		.sqd-step-task-text {
 			fill: $textColor;

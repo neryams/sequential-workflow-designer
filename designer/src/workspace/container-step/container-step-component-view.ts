@@ -72,6 +72,9 @@ export const createContainerStepComponentViewFactory =
 				setIsSelected(isSelected: boolean) {
 					regionView.setIsSelected(isSelected);
 				},
+				setIsHighlighted(isHighlighted: boolean, className: string) {
+					regionView.setIsHighlighted(isHighlighted, className);
+				},
 				setIsDisabled(isDisabled: boolean) {
 					Dom.toggleClass(g, isDisabled, 'sqd-disabled');
 				}

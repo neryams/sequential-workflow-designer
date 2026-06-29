@@ -278,6 +278,7 @@ export interface RegionView {
 	 */
 	resolveClick(click: ClickDetails): true | ClickCommand | null;
 	setIsSelected(isSelected: boolean): void;
+	setIsHighlighted(isHighlighted: boolean, className: string): void;
 }
 
 export type RegionViewFactory = (parent: SVGElement, widths: number[], height: number) => RegionView;
